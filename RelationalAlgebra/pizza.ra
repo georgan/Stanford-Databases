@@ -1,0 +1,43 @@
+/* Find all pizzas eaten by at least one female over the age of 20. */
+\project_{pizza} ((\select_{gender='female' and age>20} person) \join eats)
+
+
+/* Find the names of all females who eat at least one pizza served by Straw Hat. (Note: The pizza need not be eaten at Straw Hat.) */
+(\project_{name} (\select_{gender='female'} person))
+\join
+(\project_{name} (\select_{pizzeria ='Straw Hat'} (eats \join serves)));
+
+
+/* Find all pizzerias that serve at least one pizza for less than $10 that either Amy or Fay (or both) eat. */
+\project_{pizzeria} \select_{(name='Fay' or name='Amy') and price < 10} (eats \join serves);
+
+
+/* Find all pizzerias that serve at least one pizza for less than $10 that both Amy and Fay eat. */
+\project_{pizzeria} ((\project_{pizza} \select_{name='Fay'} eats)
+\join
+(\select_{name='Amy'} eats) \join  (\select_{price < 10} serves));
+
+
+/* Find the names of all people who eat at least one pizza served by Dominos but who do not frequent Dominos. */
+(\project_{name} (eats \join (\select_{pizzeria='Dominos'} serves)))
+\diff
+(\project_{name} \select_{pizzeria='Dominos'} frequents);
+
+
+/* Find all pizzas that are eaten only by people younger than 24, or that cost less than $10 everywhere they're served. */
+((\project_{pizza} eats) \diff (\project_{pizza} (\select_{age>=24} person \join eats)))
+\union
+((\project_{pizza} serves) \diff (\project_{pizza} \select_{price>=10} serves));
+
+
+/* Find the age of the oldest person (or people) who eat mushroom pizza. */
+(\project_{age} (\select_{pizza='mushroom'} eats \join person))
+\diff
+\project_{age} \select_{age<a} ((\project_{age} (\select_{pizza='mushroom'} eats \join person)) \cross \rename_{a} (\project_{age} (\select_{pizza='mushroom'} eats \join person)));
+
+
+/* Find all pizzerias that serve every pizza eaten by people over 30. */
+\project_{pizzeria} serves
+\diff
+\project_{pizzeria} (\project_{pizzeria} serves \cross \project_{pizza} (eats \join \select_{age>30} person)
+	\diff (\project_{pizzeria,pizza} serves \join \project_{pizza} (eats \join \select_{age>30} person)));
