@@ -1,3 +1,9 @@
+/* Works in SQLite */
+
+/* read data */
+.read social.sql
+
+
 /* It's time for the seniors to graduate. Remove all 12th graders from Highschooler. */
 delete from highschooler where grade=12;
 

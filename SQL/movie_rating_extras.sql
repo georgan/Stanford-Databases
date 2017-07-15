@@ -1,3 +1,9 @@
+/* Works in SQLite */
+
+/* read data */
+.read rating.sql
+
+
 /* Find the names of all reviewers who rated Gone with the Wind. */
 select distinct name
 from (reviewer join rating using(rid)) join movie using(mid)

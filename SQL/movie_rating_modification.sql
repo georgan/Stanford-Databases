@@ -1,3 +1,9 @@
+/* Works in SQLite */
+
+/* read data */
+.read rating.sql
+
+
 /* Add the reviewer Roger Ebert to your database, with an rID of 209. */
 insert into reviewer values (209,'Roger Ebert');
 

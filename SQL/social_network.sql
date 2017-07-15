@@ -1,3 +1,9 @@
+/* Works in SQLite */
+
+/* read data */
+.read social.sql
+
+
 /* Find the names of all students who are friends with someone named Gabriel. */
 select h2.name
 from highschooler h1, highschooler h2, friend f
